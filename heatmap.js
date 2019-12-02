@@ -1,16 +1,13 @@
-// This example requires the Visualization library. Include the libraries=visualization
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
-// import { first_morning } from "./morning.js";
 import { first_morning, second_morning } from "./morning.js";
 import { first_noon, second_noon } from "./noon.js";
 import { first_evening, second_evening } from "./evening.js";
-// import { first_morning } from "./morning.js";
-// import { first_morning } from "./morning.js";
+import { morning, noon, evening } from "./clusters.js";
 
 var map, heatmap;
 let currentTime = "morning";
-let specificty = "not-specific";
+let morning_markers = [];
+let noon_markers = [];
+let evening_markers = [];
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -147,14 +144,82 @@ function getPoints(data) {
   return maps_points;
 }
 
+const toggleHeatmap = e => {
+  if (e.target.checked) {
+    heatmap.setMap(null);
+  } else {
+    heatmap.setMap(map);
+  }
+};
+
+function markerPlacement(e) {
+  const btn = e.target;
+  const check = btn.id;
+  let color;
+  const active = btn.className.includes("active_cluster");
+  if (check.includes("morning")) {
+    if (active) {
+      removeMarkers(morning_markers);
+      morning_markers = [];
+      btn.classList.toggle("active_cluster");
+      return;
+    }
+    addMarkers(morning_markers, morning, "yellow");
+  } else if (check.includes("noon")) {
+    if (active) {
+      removeMarkers(noon_markers);
+      noon_markers = [];
+      btn.classList.toggle("active_cluster");
+      return;
+    }
+    addMarkers(noon_markers, noon, "red");
+  } else if (check.includes("evening")) {
+    if (active) {
+      removeMarkers(evening_markers);
+      evening_markers = [];
+      btn.classList.toggle("active_cluster");
+      return;
+    }
+    addMarkers(evening_markers, evening, "blue");
+  }
+  btn.classList.toggle("active_cluster");
+}
+
+function addMarkers(array, positions, color) {
+  for (let i = 0; i < positions.length; i++) {
+    const cluster = positions[i];
+    array[i] = new google.maps.Marker({
+      position: { lat: cluster[0], lng: cluster[1] },
+      map: map,
+      icon: {
+        url: `http://maps.google.com/mapfiles/ms/icons/${color}-dot.png`
+      },
+      title: cluster[2].toString()
+    });
+  }
+}
+
+function removeMarkers(gmarkers) {
+  for (let i = 0; i < gmarkers.length; i++) {
+    gmarkers[i].setMap(null);
+  }
+}
+
 initMap();
 
-const panel = document.getElementById("floating-panel");
-const morning = document.getElementById("morning");
-morning.addEventListener("click", toggleHeatmapData);
-const noon = document.getElementById("noon");
-noon.addEventListener("click", toggleHeatmapData);
-const evening = document.getElementById("evening");
-evening.addEventListener("click", toggleHeatmapData);
+const mornings = document.getElementById("morning");
+mornings.addEventListener("click", toggleHeatmapData);
+const noons = document.getElementById("noon");
+noons.addEventListener("click", toggleHeatmapData);
+const evenings = document.getElementById("evening");
+evenings.addEventListener("click", toggleHeatmapData);
 const toggler = document.getElementById("toggle");
 toggler.addEventListener("click", toggleHeatmapData);
+const morning_clusters = document.getElementById("morning_clusters");
+morning_clusters.addEventListener("click", markerPlacement);
+const noon_clusters = document.getElementById("noon_clusters");
+noon_clusters.addEventListener("click", markerPlacement);
+const evening_clusters = document.getElementById("evening_clusters");
+evening_clusters.addEventListener("click", markerPlacement);
+const turn_off_toggle = document.getElementById("turn_off_toggle");
+turn_off_toggle.addEventListener("click", toggleHeatmap);

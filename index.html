@@ -9,17 +9,31 @@
   <body>
     <div id="floating-panel">
       <div class="buttons">
+        <h3>Heatmaps</h3>
+        <div class="toggles">
+          <div>
+            <label for="specific">specific hotspots</label
+            ><input name="specific" type="checkbox" id="toggle" />
+          </div>
+          <div>
+            <label for="turn_off">turn off 🔥map</label
+            ><input name="turn_off" type="checkbox" id="turn_off_toggle" />
+          </div>
+        </div>
         <button id="morning">morning</button>
         <button id="noon">noon</button>
         <button id="evening">evening</button>
-        <div>
-          <label for="specific">specific hotspots</label
-          ><input name="specific" type="checkbox" id="toggle" />
+
+        <h3>cluster centers</h3>
+        <div class="cluster_btns">
+          <button id="morning_clusters">morning clusters</button>
+          <button id="noon_clusters">noon clusters</button>
+          <button id="evening_clusters">evening clusters</button>
         </div>
       </div>
       <div id="info">
-        <p>time: <span id="time">morning</span></p>
-        <p>specificty: <span id="specific">not specific</span></p>
+        <p>🕒: <span id="time">morning</span></p>
+        <p>🎯: <span id="specific">not specific</span></p>
       </div>
     </div>
     <div id="map"></div>

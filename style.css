@@ -21,7 +21,7 @@ body {
   background-color: #10284d;
   border: 1px solid #999;
   left: 2%;
-  top: 70%;
+  top: 50%;
   padding: 10px;
   position: absolute;
   z-index: 5;
@@ -33,6 +33,7 @@ button {
   padding: 3px;
   color: white;
   font-weight: bold;
+  border: 1px solid white;
 }
 p {
   margin: 2px;
@@ -45,4 +46,31 @@ span {
 .buttons {
   display: flex;
   flex-direction: column;
+}
+h3 {
+  margin: 1px;
+  padding: 1px;
+}
+
+#morning_clusters {
+  background-color: yellow;
+  color: black;
+}
+
+#noon_clusters {
+  background-color: crimson;
+}
+#evening_clusters {
+  background-color: blue;
+}
+
+.cluster_btns > button {
+  padding: 10px;
+  border: 1px solid white;
+}
+
+.toggles {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
